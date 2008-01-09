@@ -211,7 +211,7 @@ Class Automattic_Readme {
 	function filter_text( $text, $markdown = false ) { // fancy, Markdown
 		$text = trim($text);
 
-	        $text = $this->code_trick( $text, $markdown ); // A better parser than Markdown's for: backticks -> CODE
+	        $text = call_user_func( array( __CLASS__, 'code_trick' ), $text, $markdown ); // A better parser than Markdown's for: backticks -> CODE
 
 		if ( $markdown ) { // Parse markdown.
 			if ( !function_exists('Markdown') )
@@ -249,18 +249,17 @@ Class Automattic_Readme {
 		// If doing markdown, first take any user formatted code blocks and turn them into backticks so that
 		// markdown will preserve things like underscores in code blocks
 		if ( $markdown )
-			$text = preg_replace_callback("!(<pre><code>|<code>)(.*?)(</code></pre>|</code>)!s", array(&$this,'decodeit'), $text);
-//var_dump($text);
+			$text = preg_replace_callback("!(<pre><code>|<code>)(.*?)(</code></pre>|</code>)!s", array( __CLASS__,'decodeit'), $text);
 
 		$text = str_replace(array("\r\n", "\r"), "\n", $text);
 		if ( !$markdown ) {
 			// This gets the "inline" code blocks, but can't be used with Markdown.
-			$text = preg_replace_callback("|(`)(.*?)`|", array(&$this, 'encodeit'), $text);
+			$text = preg_replace_callback("|(`)(.*?)`|", array( __CLASS__, 'encodeit'), $text);
 			// This gets the "block level" code blocks and converts them to PRE CODE
-			$text = preg_replace_callback("!(^|\n)`(.*?)`!s", array(&$this, 'encodeit'), $text);
+			$text = preg_replace_callback("!(^|\n)`(.*?)`!s", array( __CLASS__, 'encodeit'), $text);
 		} else {
 			// Markdown can do inline code, we convert bbPress style block level code to Markdown style
-			$text = preg_replace_callback("!(^|\n)([ \t]*?)`(.*?)`!s", array(&$this, 'indent'), $text);
+			$text = preg_replace_callback("!(^|\n)([ \t]*?)`(.*?)`!s", array( __CLASS__, 'indent'), $text);
 		}
 		return $text;
 	}
