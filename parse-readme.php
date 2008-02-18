@@ -202,9 +202,9 @@ Class Automattic_Readme {
 	}
 
 	function sanitize_text( $text ) { // not fancy
-		$text = trim($text);
 		$text = strip_tags($text);
 		$text = wp_specialchars($text);
+		$text = trim($text);
 		return $text;
 	}
 
