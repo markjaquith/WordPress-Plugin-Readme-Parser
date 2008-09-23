@@ -17,6 +17,8 @@ Class Automattic_Readme {
 	function parse_readme_contents( $file_contents ) {
 		$file_contents = str_replace(array("\r\n", "\r"), "\n", $file_contents);
 		$file_contents = trim($file_contents);
+		if ( 0 === strpos( $file_contents, "\xEF\xBB\xBF" ) )
+			$file_contents = substr( $file_contents, 3 );
 
 		// === Plugin Name ===
 		// Must be the very first thing.
