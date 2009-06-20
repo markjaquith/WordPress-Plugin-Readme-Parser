@@ -61,6 +61,15 @@ Answer to foo bar dilemma.
 the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
 2. This is the second screen shot
 
+== Changelog ==
+
+= 1.0 =
+* A change since the previous version.
+* Another change.
+
+= 0.5 =
+* List versions from most recent at top to oldest at bottom.
+
 == Arbitrary section ==
 
 You may provide arbitrary sections, in the same format as the ones above.  This may be of use for extremely complicated
