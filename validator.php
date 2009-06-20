@@ -33,6 +33,8 @@ function validate_readme($r) {
 		$notes[] = 'No <code>== Installation ==</code> section was found';
 	if ( !$r['sections']['frequently_asked_questions'] )
 		$notes[] = 'No <code>== Frequently Asked Questions ==</code> section was found';
+	if ( !$r['sections']['changelog'] )
+		$notes[] = 'No <code>== Changelog ==</code> section was found';
 	if ( !$r['sections']['screenshots'] )
 		$notes[] = 'No <code>== Screenshots ==</code> section was found';
 	if ( !$r['donate_link'] )

@@ -123,7 +123,7 @@ Class Automattic_Readme {
 		// Special sections
 		// This is where we nab our special sections, so we can enforce their order and treat them differently, if needed
 		$final_sections = array();
-		foreach ( array('description', 'installation', 'frequently_asked_questions', 'screenshots') as $special_section ) {
+		foreach ( array('description', 'installation', 'frequently_asked_questions', 'screenshots', 'changelog') as $special_section ) {
 			if ( isset($sections[$special_section]) ) {
 				$final_sections[$special_section] = $sections[$special_section]['content'];
 				unset($sections[$special_section]);
@@ -304,5 +304,3 @@ Class Automattic_Readme {
 	}
 
 } // end class
-
-?>
