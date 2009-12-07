@@ -35,6 +35,8 @@ function validate_readme($r) {
 		$notes[] = 'No <code>== Frequently Asked Questions ==</code> section was found';
 	if ( !$r['sections']['changelog'] )
 		$notes[] = 'No <code>== Changelog ==</code> section was found';
+	if ( !$r['upgrade_notice'] )
+		$notes[] = 'No <code>== Upgrade Notice ==</code> section was found';
 	if ( !$r['sections']['screenshots'] )
 		$notes[] = 'No <code>== Screenshots ==</code> section was found';
 	if ( !$r['donate_link'] )
@@ -96,6 +98,14 @@ function validate_readme($r) {
 	<?php echo $section; ?>
 	<hr />
 	<?php endforeach; ?>
+
+	<h3>Upgrade Notice</h3>
+	<dl>
+<?php	foreach ( $r['upgrade_notice'] as $version => $notice ) : ?>
+		<dt><?php echo $version; ?></dt>
+		<dd><?php echo $notice; ?></dd>
+<?php	endforeach; ?>
+	</dl>
 
 	<?php echo $r['remaining_content'];
 	echo "\n<hr />\n\n";

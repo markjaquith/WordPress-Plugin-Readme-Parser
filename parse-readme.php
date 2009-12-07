@@ -122,8 +122,9 @@ Class Automattic_Readme {
 
 		// Special sections
 		// This is where we nab our special sections, so we can enforce their order and treat them differently, if needed
+		// upgrade_notice is not a section, but parse it like it is for now
 		$final_sections = array();
-		foreach ( array('description', 'installation', 'frequently_asked_questions', 'screenshots', 'changelog', 'change_log') as $special_section ) {
+		foreach ( array('description', 'installation', 'frequently_asked_questions', 'screenshots', 'changelog', 'change_log', 'upgrade_notice') as $special_section ) {
 			if ( isset($sections[$special_section]) ) {
 				$final_sections[$special_section] = $sections[$special_section]['content'];
 				unset($sections[$special_section]);
@@ -132,6 +133,7 @@ Class Automattic_Readme {
 		if ( isset($final_sections['change_log']) && empty($final_sections['changelog']) )
 			$final_sections['changelog'] = $final_sections['change_log'];
 
+
 		$final_screenshots = array();
 		if ( isset($final_sections['screenshots']) ) {
 			preg_match_all('|<li>(.*?)</li>|s', $final_sections['screenshots'], $screenshots, PREG_SET_ORDER);
@@ -139,8 +141,17 @@ Class Automattic_Readme {
 				foreach ( (array) $screenshots as $ss )
 					$final_screenshots[] = $ss[1];
 			}
-		} 
+		}
 
+		// Parse the upgrade_notice section specially:
+		// 1.0 => blah, 1.1 => fnord
+		if ( isset($final_sections['upgrade_notice']) ) {
+			$upgrade_notice = array();
+			$split = preg_split( '#<h4>(.*?)</h4>#', $final_sections['upgrade_notice'], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+			for ( $i = 0; $i < count( $split ); $i += 2 )
+				$upgrade_notice[$this->sanitize_text( $split[$i] )] = substr( $this->sanitize_text( $split[$i + 1] ), 0, 300 );
+			unset( $final_sections['upgrade_notice'] );
+		}
 
 		// No description?
 		// No problem... we'll just fall back to the old style of description
@@ -177,7 +188,8 @@ Class Automattic_Readme {
 			'is_excerpt' => $excerpt,
 			'is_truncated' => $truncated,
 			'sections' => $final_sections,
-			'remaining_content' => $remaining_content
+			'remaining_content' => $remaining_content,
+			'upgrade_notice' => $upgrade_notice
 		);
 
 		return $r;
