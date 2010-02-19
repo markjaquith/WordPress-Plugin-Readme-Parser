@@ -95,7 +95,7 @@ function validate_readme($r) {
 
 	<?php foreach ( $r['sections'] as $title => $section ) : ?>
 	<h3><?php echo ucwords(str_replace('_', ' ', $title)); ?></h3>
-	<?php echo $section; ?>
+	<?php echo function_exists( 'apply_filters' ) ? apply_filters( 'validator_section', $section ) : $section; ?>
 	<hr />
 	<?php endforeach; ?>
 
@@ -214,7 +214,7 @@ if ( $_POST['url'] ) {
 
 <form method="post" action="">
 	<input type="hidden" name="text" value="1" />
-	<textarea rows="20" cols="100" name="readme_contents" /><?php echo wp_specialchars( $readme_contents ); ?></textarea>
+	<textarea rows="20" cols="100" name="readme_contents"><?php echo wp_specialchars( $readme_contents ); ?></textarea>
 	<p><input type="submit" value="Validate!" /></p>
 </form>
 
