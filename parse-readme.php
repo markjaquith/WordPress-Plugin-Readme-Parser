@@ -1,11 +1,15 @@
 <?php
 // This is the path to markdown.php
-if ( !defined('AUTOMATTIC_README_MARKDOWN') )
-	define('AUTOMATTIC_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
+if ( !defined('WORDPRESS_README_MARKDOWN') ) {
+	if ( defined('AUTOMATTIC_README_MARKDOWN') )
+		define( 'WORDPRESS_README_MARKDOWN', AUTOMATTIC_README_MARKDOWN );
+	else
+		define('WORDPRESS_README_MARKDOWN', dirname(__FILE__) . '/markdown.php');
+}
 
-Class Automattic_Readme {
+Class WordPress_Readme_Parser {
 
-	function Automattic_Readme() {
+	function __construct() {
 		// This space intentially blank
 	}
 
@@ -19,6 +23,11 @@ Class Automattic_Readme {
 		$file_contents = trim($file_contents);
 		if ( 0 === strpos( $file_contents, "\xEF\xBB\xBF" ) )
 			$file_contents = substr( $file_contents, 3 );
+
+		// Markdown transformations
+		$file_contents = preg_replace( "|^###([^#]+)#*?\s*?\n|im", '=$1='."\n",     $file_contents );
+		$file_contents = preg_replace( "|^##([^#]+)#*?\s*?\n|im",  '==$1=='."\n",   $file_contents );
+		$file_contents = preg_replace( "|^#([^#]+)#*?\s*?\n|im",   '===$1==='."\n", $file_contents );
 
 		// === Plugin Name ===
 		// Must be the very first thing.
@@ -76,7 +85,7 @@ Class Automattic_Readme {
 
 		// Donate Link: URL
 		if ( preg_match('|Donate link:(.*)|i', $file_contents, $_donate_link) )
-			$donate_link = clean_url( $_donate_link[1] );
+			$donate_link = esc_url( $_donate_link[1] );
 		else
 			$donate_link = NULL;
 
@@ -219,7 +228,7 @@ Class Automattic_Readme {
 
 	function sanitize_text( $text ) { // not fancy
 		$text = strip_tags($text);
-		$text = wp_specialchars($text);
+		$text = esc_html($text);
 		$text = trim($text);
 		return $text;
 	}
@@ -231,7 +240,7 @@ Class Automattic_Readme {
 
 		if ( $markdown ) { // Parse markdown.
 			if ( !function_exists('Markdown') )
-				require( AUTOMATTIC_README_MARKDOWN );
+				require( WORDPRESS_README_MARKDOWN );
 			$text = Markdown($text);
 		}
 
@@ -318,3 +327,5 @@ Class Automattic_Readme {
 	}
 
 } // end class
+
+Class Automattic_Readme extends WordPress_Readme_Parser {}
