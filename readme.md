@@ -1,9 +1,9 @@
 # Plugin Name #
-Contributors: markjaquith, mdawaffe
-Donate link: http://example.com/
-Tags: comments, spam
-Requires at least: 2.0.2
-Tested up to: 2.1
+Contributors: markjaquith, mdawaffe  
+Donate link: http://example.com/  
+Tags: comments, spam  
+Requires at least: 2.0.2  
+Tested up to: 2.1  
 Stable tag: 4.3
 
 Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
