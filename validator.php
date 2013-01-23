@@ -26,6 +26,10 @@ function validate_readme($r) {
 		$warnings[] = 'No <code>== Description ==</code> section was found... your short description section will be used instead';
 	if ( $r['is_truncated'] )
 		$warnings[] = 'Your short description exceeds the 150 character limit';
+	if ( !$r['license'] )
+		$warnings[] = 'No <code>License</code> specified';
+	if ( !$r['license_uri'] )
+		$warnings[] = 'No <code>License URI</code> specified';
 
 
 	// notes
@@ -88,7 +92,9 @@ function validate_readme($r) {
 	<strong>Tags:</strong> <?php echo implode(', ', $r['tags']);?><br />
 	<strong>Requires at least:</strong> <?php echo $r['requires_at_least']; ?><br />
 	<strong>Tested up to:</strong> <?php echo $r['tested_up_to']; ?><br />
-	<strong>Stable tag:</strong> <?php echo $r['stable_tag']; ?>
+	<strong>Stable tag:</strong> <?php echo $r['stable_tag']; ?><br />
+	<strong>License:</strong> <?php echo $r['license']; ?><br />
+	<strong>License URI:</strong> <?php echo $r['license_uri']; ?>
 	</p>
 
 	<hr />
