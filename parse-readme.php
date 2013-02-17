@@ -154,8 +154,8 @@ Class WordPress_Readme_Parser {
 
 		// Parse the upgrade_notice section specially:
 		// 1.0 => blah, 1.1 => fnord
+    $upgrade_notice = array();
 		if ( isset($final_sections['upgrade_notice']) ) {
-			$upgrade_notice = array();
 			$split = preg_split( '#<h4>(.*?)</h4>#', $final_sections['upgrade_notice'], -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 			for ( $i = 0; $i < count( $split ); $i += 2 )
 				$upgrade_notice[$this->sanitize_text( $split[$i] )] = substr( $this->sanitize_text( $split[$i + 1] ), 0, 300 );
@@ -264,7 +264,7 @@ Class WordPress_Readme_Parser {
 		);
 
 		$text = balanceTags($text);
-		
+
 		$text = wp_kses( $text, $allowed );
 		$text = trim($text);
 		return $text;
