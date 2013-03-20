@@ -242,6 +242,7 @@ Class Automattic_Readme {
 				'rel' => array()),
 			'blockquote' => array('cite' => array()),
 			'br' => array(),
+			'cite' => array(),
 			'p' => array(),
 			'code' => array(),
 			'pre' => array(),
