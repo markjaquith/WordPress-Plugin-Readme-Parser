@@ -85,8 +85,14 @@ Class Automattic_Readme {
 		else
 			$license = NULL;
 
+		// License URI: URL
+		if ( preg_match( '|License URI:(.*)|i', $file_contents, $_license_uri ) )
+			$license_uri = clean_url( $_license_uri[1] );
+		else
+			$license_uri = null;
+
 		// togs, conts, etc are optional and order shouldn't matter.  So we chop them only after we've grabbed their values.
-		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'license') as $chop ) {
+		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'license', 'license_uri') as $chop ) {
 			if ( $$chop ) {
 				$_chop = '_' . $chop;
 				$file_contents = $this->chop_string( $file_contents, ${$_chop}[0] );
@@ -189,6 +195,8 @@ Class Automattic_Readme {
 			'stable_tag' => $stable_tag,
 			'contributors' => $contributors,
 			'donate_link' => $donate_link,
+			'license' => $license,
+			'license_uri' => $license_uri,
 			'short_description' => $short_description,
 			'screenshots' => $final_screenshots,
 			'is_excerpt' => $excerpt,
