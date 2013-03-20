@@ -73,23 +73,20 @@ Class Automattic_Readme {
 			}
 		}
 
-
 		// Donate Link: URL
 		if ( preg_match('|Donate link:(.*)|i', $file_contents, $_donate_link) )
 			$donate_link = clean_url( $_donate_link[1] );
 		else
 			$donate_link = NULL;
 
-		// Logline: 140 characters that describes the plugin
-		if ( preg_match('|Logline:(.*)|i', $file_contents, $_logline) ) {
-			$logline = $this->sanitize_text($_logline[1]);
-			$logline = substr($logline, 0, 140); // 140 char maximum
-		} else {
-			$logline = NULL;
-		}
+		// License: GPLv2 (Lots of plugins have this, so lets pull it out so it doesn't get into our short description)
+		if ( preg_match('|License:(.*)|i', $file_contents, $_license) )
+			$license = sanitize_text( $_donate_link[1] );
+		else
+			$license = NULL;
 
 		// togs, conts, etc are optional and order shouldn't matter.  So we chop them only after we've grabbed their values.
-		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'logline') as $chop ) {
+		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'license') as $chop ) {
 			if ( $$chop ) {
 				$_chop = '_' . $chop;
 				$file_contents = $this->chop_string( $file_contents, ${$_chop}[0] );
@@ -190,7 +187,6 @@ Class Automattic_Readme {
 			'stable_tag' => $stable_tag,
 			'contributors' => $contributors,
 			'donate_link' => $donate_link,
-			'logline' => $logline,
 			'short_description' => $short_description,
 			'screenshots' => $final_screenshots,
 			'is_excerpt' => $excerpt,
