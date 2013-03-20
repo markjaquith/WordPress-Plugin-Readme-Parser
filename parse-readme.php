@@ -80,9 +80,16 @@ Class Automattic_Readme {
 		else
 			$donate_link = NULL;
 
+		// Logline: 140 characters that describes the plugin
+		if ( preg_match('|Logline:(.*)|i', $file_contents, $_logline) ) {
+			$logline = $this->sanitize_text($_logline[1]);
+			$logline = substr($logline, 0, 140); // 140 char maximum
+		} else {
+			$logline = NULL;
+		}
 
 		// togs, conts, etc are optional and order shouldn't matter.  So we chop them only after we've grabbed their values.
-		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link') as $chop ) {
+		foreach ( array('tags', 'contributors', 'requires_at_least', 'tested_up_to', 'stable_tag', 'donate_link', 'logline') as $chop ) {
 			if ( $$chop ) {
 				$_chop = '_' . $chop;
 				$file_contents = $this->chop_string( $file_contents, ${$_chop}[0] );
@@ -183,6 +190,7 @@ Class Automattic_Readme {
 			'stable_tag' => $stable_tag,
 			'contributors' => $contributors,
 			'donate_link' => $donate_link,
+			'logline' => $logline,
 			'short_description' => $short_description,
 			'screenshots' => $final_screenshots,
 			'is_excerpt' => $excerpt,
@@ -256,7 +264,7 @@ Class Automattic_Readme {
 		);
 
 		$text = balanceTags($text);
-		
+
 		$text = wp_kses( $text, $allowed );
 		$text = trim($text);
 		return $text;
