@@ -279,8 +279,11 @@ Class Automattic_Readme {
 			// This gets the "block level" code blocks and converts them to PRE CODE
 			$text = preg_replace_callback("!(^|\n)`(.*?)`!s", array( __CLASS__, 'encodeit'), $text);
 		} else {
-			// Markdown can do inline code, we convert bbPress style block level code to Markdown style
-			$text = preg_replace_callback("!(^|\n)([ \t]*?)`(.*?)`!s", array( __CLASS__, 'indent'), $text);
+//			// Markdown can do inline code, we convert bbPress style block level code to Markdown style
+//			$text = preg_replace_callback("!(^|\n)([ \t]*?)`(.*?)`!s", array( __CLASS__, 'indent'), $text);
+
+			// Markdown seems to be choking on block level stuff too.  Let's just encode it and be done with it.
+			$text = preg_replace_callback("!(^|\n)`(.*?)`!s", array( __CLASS__, 'encodeit'), $text);
 		}
 		return $text;
 	}
