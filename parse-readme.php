@@ -171,7 +171,9 @@ Class Automattic_Readme {
 		// their order will be determined by their original order in the readme.txt
 		$remaining_content = '';
 		foreach ( $sections as $s_name => $s_data ) {
-			$remaining_content .= "\n<h3>{$s_data['title']}</h3>\n{$s_data['content']}";
+			$title_id = esc_attr($s_data['title']);
+			$title_id = str_replace(' ','-',$title_id);
+			$remaining_content .= "\n<h3 id='{$title_id}'>{$s_data['title']}</h3>\n{$s_data['content']}";
 		}
 		$remaining_content = trim($remaining_content);
 
