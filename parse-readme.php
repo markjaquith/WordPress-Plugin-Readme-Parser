@@ -81,7 +81,7 @@ Class Automattic_Readme {
 
 		// License: GPLv2 (Lots of plugins have this, so lets pull it out so it doesn't get into our short description)
 		if ( preg_match('|License:(.*)|i', $file_contents, $_license) )
-			$license = $this->sanitize_text( $_donate_link[1] );
+			$license = $this->sanitize_text( $_license[1] );
 		else
 			$license = NULL;
 
