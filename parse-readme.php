@@ -46,6 +46,12 @@ Class WordPress_Readme_Parser {
 			$requires_at_least = NULL;
 
 
+		// e.g.: Requires PHP: 7.1
+		if (preg_match('|Requires PHP:(.*)|i', $pFileContents, $_requires_php))
+		    $requires_php = $this->SanitizeText($_requires_php[1]);
+		else
+		    $requires_php = NULL;
+
 		// Tested up to: 2.1
 		if ( preg_match('|Tested up to:(.*)|i', $file_contents, $_tested_up_to) )
 			$tested_up_to = $this->sanitize_text( $_tested_up_to[1] );
@@ -188,6 +194,7 @@ Class WordPress_Readme_Parser {
 			'name' => $name,
 			'tags' => $tags,
 			'requires_at_least' => $requires_at_least,
+			'requires_php' => $requires_php,
 			'tested_up_to' => $tested_up_to,
 			'stable_tag' => $stable_tag,
 			'contributors' => $contributors,
